@@ -1,0 +1,133 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - {{ perfil.nombre }} {{ perfil.apellido }}</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'cv/style.css' %}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top d-print-none">
+    <div class="container">
+        <span class="navbar-brand fw-bold">Curriculum Vitae</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto text-center">
+                <li class="nav-item"><a class="nav-link" href="#datos">Datos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#sobre-mi">Sobre Mí</a></li>
+                <li class="nav-item"><a class="nav-link" href="#experiencia">Experiencia</a></li>
+                <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+                <li class="nav-item"><a class="nav-link" href="#certificados">Certificados</a></li>
+                <li class="nav-item"><a class="nav-link" href="#referencias">Referencia</a></li>
+            </ul>
+            <div class="text-center d-flex gap-2 justify-content-center">
+                <button onclick="window.print()" class="btn btn-download">Guardar CV</button>
+                <button onclick="abrirSelectorImpresion()" class="btn btn-download" style="background-color: #28a745 !important;">📝 Seleccionar que imprimir</button>
+                
+                <button onclick="abrirEditor('/admin/cv/perfil/1/change/')" class="btn btn-download" style="background-color: #6c757d !important;">⚙️ EDITA TU CV</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container cv-container">
+    <div class="card card-custom text-center">
+        <div class="mb-3">
+            {% if perfil.foto %}
+                <img src="{{ perfil.foto.url }}" class="rounded-circle shadow mx-auto d-block" 
+                     style="width: 150px; height: 150px; object-fit: cover; border: 5px solid white;">
+            {% else %}
+                <div class="rounded-circle d-inline-block text-white shadow mx-auto" 
+                     style="width: 100px; height: 100px; line-height: 100px; font-size: 2.5rem; font-weight: bold; background-color: var(--primary-color) !important;">
+                    {{ perfil.nombre|slice:":1" }}{{ perfil.apellido|slice:":1" }}
+                </div>
+            {% endif %}
+        </div>
+        <h1 class="display-5 fw-bold mb-1" style="color: var(--primary-color);">{{ perfil.nombre }} {{ perfil.apellido }}</h1>
+        <p class="h5 fw-light" style="color: var(--accent-color); letter-spacing: 1px;">{{ perfil.profesion }}</p>
+    </div>
+
+    {% include 'cv/datos.html' %}
+    {% include 'cv/sobre_mi.html' %}
+    {% include 'cv/experiencia.html' %}
+    {% include 'cv/habilidades.html' %}
+    {% include 'cv/certificados.html' %}
+    {% include 'cv/referencias.html' %}
+</div>
+
+<div id="modalImpresion" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:15px; box-shadow: 0 0 30px rgba(0,0,0,0.5); z-index:10000; width: 320px;">
+    <h5 class="fw-bold mb-3" style="color: #333;">Selecciona qué imprimir:</h5>
+    <div id="listaSecciones"></div>
+    <div class="mt-4 d-flex gap-2">
+        <button onclick="ejecutarImpresionSeleccionada()" class="btn btn-primary w-100">Imprimir</button>
+        <button onclick="cerrarSelectorImpresion()" class="btn btn-light border w-100">Cancelar</button>
+    </div>
+</div>
+<div id="overlayImpresion" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;"></div>
+
+<script>
+// --- LÓGICA DE EDICIÓN Y REFRESCO AUTOMÁTICO ---
+let ventanaEditor = null;
+
+function abrirEditor(url) {
+    ventanaEditor = window.open(url, '_blank');
+    
+    // Monitorea si la pestaña se cierra para refrescar la página principal
+    let chequearCierre = setInterval(function() {
+        if (ventanaEditor && ventanaEditor.closed) {
+            clearInterval(chequearCierre);
+            window.location.reload(); // Recarga "solito"
+        }
+    }, 1000);
+}
+
+// --- LÓGICA DE IMPRESIÓN SELECCIONADA ---
+function abrirSelectorImpresion() {
+    const secciones = [
+        {id: 'datos', n: 'Datos Personales'},
+        {id: 'sobre-mi', n: 'Sobre Mí'},
+        {id: 'experiencia', n: 'Experiencia'},
+        {id: 'habilidades', n: 'Habilidades'},
+        {id: 'certificados', n: 'Certificados'},
+        {id: 'referencias', n: 'Referencias'}
+    ];
+    let html = '';
+    secciones.forEach(s => {
+        if(document.getElementById(s.id)) {
+            html += `<div class="mb-2"><input type="checkbox" class="check-imprimir" value="${s.id}" id="c_${s.id}" checked> <label for="c_${s.id}" style="color:#333; cursor:pointer;">${s.n}</label></div>`;
+        }
+    });
+    document.getElementById('listaSecciones').innerHTML = html;
+    document.getElementById('modalImpresion').style.display = 'block';
+    document.getElementById('overlayImpresion').style.display = 'block';
+}
+
+function cerrarSelectorImpresion() {
+    document.getElementById('modalImpresion').style.display = 'none';
+    document.getElementById('overlayImpresion').style.display = 'none';
+}
+
+function ejecutarImpresionSeleccionada() {
+    const checks = document.querySelectorAll('.check-imprimir');
+    checks.forEach(c => {
+        const el = document.getElementById(c.value);
+        if (el) {
+            if (!c.checked) el.classList.add('d-print-none');
+            else el.classList.remove('d-print-none');
+        }
+    });
+    cerrarSelectorImpresion();
+    window.print();
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

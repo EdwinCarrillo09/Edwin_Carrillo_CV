@@ -1,0 +1,13 @@
+<div class="card card-custom" id="experiencia">
+    <h3 class="section-title">Experiencia Profesional</h3>
+    {% for exp in experiencias %}
+    <div class="exp-item">
+        <div class="d-flex justify-content-between align-items-start flex-wrap mb-1">
+            <h5 class="fw-bold mb-0 text-dark">{{ exp.cargo }}</h5>
+            <span class="badge rounded-pill border text-muted bg-white px-3">{{ exp.inicio }} — {{ exp.fin }}</span>
+        </div>
+        <h6 class="mb-3" style="color: var(--accent-color); font-weight: 600;">{{ exp.empresa }}</h6>
+        <div class="text-muted small" style="line-height: 1.6;">{{ exp.logros|linebreaks }}</div>
+    </div>
+    {% endfor %}
+</div>
