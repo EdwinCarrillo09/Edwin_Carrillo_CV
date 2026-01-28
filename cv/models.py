@@ -30,6 +30,7 @@ class Perfil(models.Model):
     def __str__(self):
         return f"{self.nombre} {self.apellido}"
 
+
 class Experiencia(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='experiencias', null=True)
     empresa = models.CharField(max_length=100)
@@ -38,8 +39,12 @@ class Experiencia(models.Model):
     fin = models.CharField(max_length=20, default="Actualidad")
     logros = models.TextField()
 
+    class Meta:
+        ordering = ['-inicio']  # ← MÁS RECIENTE PRIMERO
+
     def __str__(self):
         return f"{self.cargo} en {self.empresa}"
+
 
 class Certificado(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='certificados', null=True)
@@ -48,8 +53,12 @@ class Certificado(models.Model):
     fecha_obtencion = models.DateField()
     archivo = models.FileField(upload_to='certificados/')
 
+    class Meta:
+        ordering = ['-fecha_obtencion']  # ← MÁS RECIENTE PRIMERO
+
     def __str__(self):
         return self.titulo
+
 
 class Habilidad(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='habilidades', null=True)
@@ -64,6 +73,7 @@ class Habilidad(models.Model):
 
     def __str__(self):
         return f"{self.nombre} ({self.get_categoria_display()})"
+
 
 class Referencia(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='referencias', null=True)
