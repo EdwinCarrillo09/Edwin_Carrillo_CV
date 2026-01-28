@@ -1,23 +1,21 @@
-from django.shortcuts import render
-# 1. Agrega 'Referencia' y 'Certificado' a la importación
+from django.shortcuts import render, get_object_or_404
 from .models import Perfil, Experiencia, Habilidad, Referencia, Certificado
 
-def ver_cv(request):    
-    # Obtenemos el primer perfil
-    perfil = Perfil.objects.first()
-    
-    # 2. Filtramos para que solo traiga los datos de ESE perfil específico
-    # Esto evita que se mezclen datos si luego tienes más de un perfil
-    experiencias = Experiencia.objects.filter(perfil=perfil)
+def ver_cv(request, perfil_id):
+    # Traer el perfil correcto por ID
+    perfil = get_object_or_404(Perfil, id=perfil_id)
+
+    experiencias = Experiencia.objects.filter(perfil=perfil).order_by('-inicio')
     habilidades = Habilidad.objects.filter(perfil=perfil)
-    referencias = Referencia.objects.filter(perfil=perfil) # <-- Nueva línea
-    certificados = Certificado.objects.filter(perfil=perfil) # <-- Agregado también
-    
+    referencias = Referencia.objects.filter(perfil=perfil)
+    certificados = Certificado.objects.filter(perfil=perfil).order_by('-fecha_obtencion')
+
     contexto = {
         'perfil': perfil,
         'experiencias': experiencias,
         'habilidades': habilidades,
-        'referencias': referencias, 
-        'certificados': certificados, 
+        'referencias': referencias,
+        'certificados': certificados,
     }
+
     return render(request, 'cv/index.html', contexto)

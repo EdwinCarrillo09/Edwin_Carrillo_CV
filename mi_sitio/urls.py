@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', ver_cv, name='hoja_de_vida'),
+    path('perfil/<int:perfil_id>/', ver_cv, name='ver_cv'),
 ]
 
 # Esto es lo que permite que las fotos de tus títulos se vean
