@@ -1,6 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Perfil, Experiencia, Habilidad, Referencia, Certificado
 
+
+def home(request):
+    # Traer el último perfil creado
+    perfil = Perfil.objects.order_by('-id').first()
+
+    if not perfil:
+        return render(request, 'cv/index.html', {'perfil': None})
+
+    return ver_cv(request, perfil.id)
+
+
 def ver_cv(request, perfil_id):
     # Traer el perfil correcto por ID
     perfil = get_object_or_404(Perfil, id=perfil_id)

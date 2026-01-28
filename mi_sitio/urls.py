@@ -16,12 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cv.views import ver_cv
+from cv.views import ver_cv, home
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='home'),  # 👈 ESTA LÍNEA ES LA CLAVE
     path('perfil/<int:perfil_id>/', ver_cv, name='ver_cv'),
 ]
 
