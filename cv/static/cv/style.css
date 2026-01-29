@@ -159,14 +159,14 @@ body {
     .container { max-width: 95%; }
 }
 
-/* --- CONFIGURACIÓN DE IMPRESIÓN DEFINITIVA (CORRIGE HOJA EN BLANCO) --- */
+/* --- CONFIGURACIÓN DE IMPRESIÓN DEFINITIVA (ELIMINA HOJA EN BLANCO) --- */
 @media print {
     @page {
         size: A4;
         margin: 0.5cm !important;
     }
 
-    /* Reset de espacios críticos */
+    /* Reset total para ignorar el padding de la web */
     html, body {
         margin: 0 !important;
         padding: 0 !important;
@@ -174,22 +174,24 @@ body {
         height: auto !important;
     }
 
-    /* Eliminar rastro de la navbar y botones */
-    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion, .navbar-toggler {
+    /* Eliminar rastro de elementos que ocupan espacio invisible */
+    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion, .navbar-toggler, header {
         display: none !important;
+        visibility: hidden !important;
         height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
     }
 
-    /* Forzar el contenido al inicio absoluto de la hoja */
+    /* Forzar el contenido a pegarse al borde superior absoluto */
     .cv-container {
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
-        position: relative !important;
+        position: absolute !important; /* Arranca el contenido del flujo web */
         top: 0 !important;
+        left: 0 !important;
     }
 
     .card-custom {
@@ -210,4 +212,10 @@ body {
 
     h1, h2, h3 { color: black !important; page-break-after: avoid; }
     a { text-decoration: none !important; color: black !important; }
+
+    /* Ajuste foto perfil */
+    .rounded-circle {
+        border: 2px solid #eee !important;
+        margin-top: 0 !important;
+    }
 }
