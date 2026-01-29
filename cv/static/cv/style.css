@@ -17,7 +17,10 @@ body {
 .navbar-custom {
     background-color: var(--primary-color);
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    transition: top 0.3s ease-in-out !important;
 }
+
+.nav-up { top: -100px !important; }
 
 .navbar-custom .nav-link {
     color: rgba(255,255,255,0.8) !important;
@@ -137,137 +140,74 @@ body {
     transition: 0.2s;
 }
 
-@media print {
-    .navbar, .d-print-none { display: none !important; }
-    body { padding-top: 0 !important; background: white !important; }
-    .cv-container { max-width: 100%; }
-    .card-custom { padding: 20px 0; border: none; box-shadow: none; margin-bottom: 10px; transform: none !important; }
-    .badge-skill { border: 1px solid #ccc; background: white; }
-}
 /* --- RESPONSIVE DESIGN --- */
-
-/* Ajuste general para evitar que el contenido se pegue a los bordes en móviles */
-.cv-container {
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-top: 110px; /* Espacio para que la navbar fija no tape el perfil */
-}
-
-/* Tablets y pantallas medianas */
 @media (max-width: 991px) {
-    .navbar-brand {
-        font-size: 1.2rem;
-    }
-    .display-5 {
-        font-size: 2.2rem;
-    }
+    .navbar-brand { font-size: 1.2rem; }
+    .display-5 { font-size: 2.2rem; }
 }
 
-/* Celulares (Pantallas pequeñas) */
 @media (max-width: 576px) {
-    .cv-container {
-        margin-top: 90px;
-    }
-    
-    .display-5 {
-        font-size: 1.8rem; /* Nombre más pequeño en celular */
-    }
-
-    .card-custom {
-        padding: 1.5rem !important;
-    }
-
-    /* Foto de perfil más pequeña en celulares */
-    .rounded-circle {
-        width: 120px !important;
-        height: 120px !important;
-    }
-
-    /* Los botones ocupan el ancho completo en móvil para ser fáciles de tocar */
-    .btn-download {
-        width: 100%;
-        margin-bottom: 5px;
-        font-size: 0.9rem;
-    }
-
-    /* Ajuste para que los textos largos no rompan la pantalla */
-    h1, h2, h3 {
-        word-wrap: break-word;
-    }
+    .cv-container { margin-top: 90px; padding-left: 15px; padding-right: 15px; }
+    .display-5 { font-size: 1.8rem; }
+    .card-custom { padding: 1.5rem !important; }
+    .rounded-circle { width: 120px !important; height: 120px !important; }
+    .btn-download { width: 100%; margin-bottom: 5px; font-size: 0.9rem; }
+    h1, h2, h3 { word-wrap: break-word; }
 }
 
-/* Optimización para tablets en modo horizontal */
 @media (min-width: 768px) and (max-width: 1024px) {
-    .container {
-        max-width: 95%;
-    }
-}
-/* Transición suave para esconder/mostrar la navbar */
-.navbar-custom {
-    transition: top 0.3s ease-in-out !important;
+    .container { max-width: 95%; }
 }
 
-/* Esta clase se activará con JavaScript */
-.nav-up {
-    top: -100px !important; /* Esconde la barra hacia arriba */
-}
-
-/* --- CONFIGURACIÓN DE IMPRESIÓN PROFESIONAL --- */
+/* --- CONFIGURACIÓN DE IMPRESIÓN DEFINITIVA (CORRIGE HOJA EN BLANCO) --- */
 @media print {
-    /* 1. Ajuste de página y márgenes */
     @page {
         size: A4;
-        margin: 1cm;
+        margin: 0.5cm !important;
     }
 
-    /* 2. Limpieza de interfaz */
-    body {
-        background-color: white !important;
-        color: black !important;
-        font-size: 11pt; /* Tamaño de fuente ideal para lectura en papel */
+    /* Reset de espacios críticos */
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        height: auto !important;
     }
 
-    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion {
-        display: none !important; /* Oculta menús y botones */
+    /* Eliminar rastro de la navbar y botones */
+    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion, .navbar-toggler {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
-    /* 3. Estructura de tarjetas (Evita que se corten a la mitad) */
-    .card-custom {
-        box-shadow: none !important;
-        border: 1px solid #eee !important;
-        margin-bottom: 20px !important;
-        break-inside: avoid; /* CRÍTICO: Evita que una tarjeta se divida entre dos páginas */
-        page-break-inside: avoid;
-    }
-
+    /* Forzar el contenido al inicio absoluto de la hoja */
     .cv-container {
-        margin-top: 0 !important; /* Elimina el espacio de la navbar */
+        margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
         max-width: 100% !important;
+        position: relative !important;
+        top: 0 !important;
     }
 
-    /* 4. Saltos de página manuales */
-    .page-break {
-        page-break-before: always;
-        break-before: page;
+    .card-custom {
+        box-shadow: none !important;
+        border: 1px solid #eee !important;
+        margin-bottom: 15px !important;
+        padding: 20px !important;
+        transform: none !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
     }
 
-    /* 5. Ajuste de textos y links */
-    h1, h2, h3 {
-        color: #333 !important;
-        page-break-after: avoid;
-    }
-
-    a {
-        text-decoration: none !important;
+    .badge-skill { 
+        border: 1px solid #ccc !important; 
+        background: white !important; 
         color: black !important;
     }
 
-    /* 6. Mantener colores de fondo (badges) si es necesario */
-    .badge {
-        border: 1px solid #ccc !important;
-        color: black !important;
-        background-color: transparent !important;
-    }
+    h1, h2, h3 { color: black !important; page-break-after: avoid; }
+    a { text-decoration: none !important; color: black !important; }
 }
