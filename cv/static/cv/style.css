@@ -17,10 +17,7 @@ body {
 .navbar-custom {
     background-color: var(--primary-color);
     box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-    transition: top 0.3s ease-in-out !important;
 }
-
-.nav-up { top: -100px !important; }
 
 .navbar-custom .nav-link {
     color: rgba(255,255,255,0.8) !important;
@@ -140,61 +137,10 @@ body {
     transition: 0.2s;
 }
 
-/* --- RESPONSIVE DESIGN --- */
-@media (max-width: 576px) {
-    .cv-container { margin-top: 90px; padding-left: 15px; padding-right: 15px; }
-    .display-5 { font-size: 1.8rem; }
-    .card-custom { padding: 1.5rem !important; }
-    .rounded-circle { width: 120px !important; height: 120px !important; }
-    .btn-download { width: 100%; margin-bottom: 5px; font-size: 0.9rem; }
-}
-
-/* --- CONFIGURACIÓN DE IMPRESIÓN PARA ELIMINAR ESPACIO SUPERIOR --- */
 @media print {
-    /* Forzamos el margen de la página a CERO */
-    @page {
-        size: A4;
-        margin: 0 !important;
-    }
-
-    html, body {
-        margin: 0 !important;
-        padding: 0 !important;
-        background: white !important;
-        /* IMPORTANTE: Quitamos el padding-top que pusimos para la web */
-        padding-top: 0 !important; 
-    }
-
-    /* Escondemos TODO lo que no sea el CV */
-    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion, .navbar-toggler, .btn-download {
-        display: none !important;
-        height: 0 !important;
-        margin: 0 !important;
-    }
-
-    .cv-container {
-        margin: 0 !important;
-        padding: 1cm !important; /* Añadimos el margen aquí para que sea interno */
-        width: 100% !important;
-        max-width: 100% !important;
-        /* Esto elimina cualquier espacio fantasma superior */
-        transform: translateY(0) !important;
-    }
-
-    .card-custom {
-        box-shadow: none !important;
-        border: 1px solid #eee !important;
-        margin-bottom: 10px !important;
-        padding: 15px !important;
-        break-inside: avoid;
-    }
-
-    /* Reducimos la foto solo en impresión para ganar espacio */
-    .rounded-circle {
-        width: 100px !important;
-        height: 100px !important;
-        margin-top: 0 !important;
-    }
-
-    h1 { font-size: 24pt !important; margin-top: 0 !important; }
+    .navbar, .d-print-none { display: none !important; }
+    body { padding-top: 0 !important; background: white !important; }
+    .cv-container { max-width: 100%; }
+    .card-custom { padding: 20px 0; border: none; box-shadow: none; margin-bottom: 10px; transform: none !important; }
+    .badge-skill { border: 1px solid #ccc; background: white; }
 }
