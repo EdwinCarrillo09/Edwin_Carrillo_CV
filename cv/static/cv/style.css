@@ -141,81 +141,60 @@ body {
 }
 
 /* --- RESPONSIVE DESIGN --- */
-@media (max-width: 991px) {
-    .navbar-brand { font-size: 1.2rem; }
-    .display-5 { font-size: 2.2rem; }
-}
-
 @media (max-width: 576px) {
     .cv-container { margin-top: 90px; padding-left: 15px; padding-right: 15px; }
     .display-5 { font-size: 1.8rem; }
     .card-custom { padding: 1.5rem !important; }
     .rounded-circle { width: 120px !important; height: 120px !important; }
     .btn-download { width: 100%; margin-bottom: 5px; font-size: 0.9rem; }
-    h1, h2, h3 { word-wrap: break-word; }
 }
 
-@media (min-width: 768px) and (max-width: 1024px) {
-    .container { max-width: 95%; }
-}
-
-/* --- CONFIGURACIÓN DE IMPRESIÓN DEFINITIVA (ELIMINA HOJA EN BLANCO) --- */
+/* --- CONFIGURACIÓN DE IMPRESIÓN PARA ELIMINAR ESPACIO SUPERIOR --- */
 @media print {
+    /* Forzamos el margen de la página a CERO */
     @page {
         size: A4;
-        margin: 0.5cm !important;
+        margin: 0 !important;
     }
 
-    /* Reset total para ignorar el padding de la web */
     html, body {
         margin: 0 !important;
         padding: 0 !important;
         background: white !important;
-        height: auto !important;
+        /* IMPORTANTE: Quitamos el padding-top que pusimos para la web */
+        padding-top: 0 !important; 
     }
 
-    /* Eliminar rastro de elementos que ocupan espacio invisible */
-    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion, .navbar-toggler, header {
+    /* Escondemos TODO lo que no sea el CV */
+    .navbar, .btn, .d-print-none, #modalImpresion, #overlayImpresion, .navbar-toggler, .btn-download {
         display: none !important;
-        visibility: hidden !important;
         height: 0 !important;
         margin: 0 !important;
-        padding: 0 !important;
     }
 
-    /* Forzar el contenido a pegarse al borde superior absoluto */
     .cv-container {
         margin: 0 !important;
-        padding: 0 !important;
+        padding: 1cm !important; /* Añadimos el margen aquí para que sea interno */
         width: 100% !important;
         max-width: 100% !important;
-        position: absolute !important; /* Arranca el contenido del flujo web */
-        top: 0 !important;
-        left: 0 !important;
+        /* Esto elimina cualquier espacio fantasma superior */
+        transform: translateY(0) !important;
     }
 
     .card-custom {
         box-shadow: none !important;
         border: 1px solid #eee !important;
-        margin-bottom: 15px !important;
-        padding: 20px !important;
-        transform: none !important;
+        margin-bottom: 10px !important;
+        padding: 15px !important;
         break-inside: avoid;
-        page-break-inside: avoid;
     }
 
-    .badge-skill { 
-        border: 1px solid #ccc !important; 
-        background: white !important; 
-        color: black !important;
-    }
-
-    h1, h2, h3 { color: black !important; page-break-after: avoid; }
-    a { text-decoration: none !important; color: black !important; }
-
-    /* Ajuste foto perfil */
+    /* Reducimos la foto solo en impresión para ganar espacio */
     .rounded-circle {
-        border: 2px solid #eee !important;
+        width: 100px !important;
+        height: 100px !important;
         margin-top: 0 !important;
     }
+
+    h1 { font-size: 24pt !important; margin-top: 0 !important; }
 }
