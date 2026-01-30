@@ -49,16 +49,58 @@ class HabilidadAdmin(admin.ModelAdmin):
             return respuesta_cierre_pestana()
         return super().response_change(request, obj)
 
-@admin.register(Certificado)
-class CertificadoAdmin(admin.ModelAdmin):
-    # AÑADIDO: 'perfil' para ver quién subió el certificado
+class CursosAdmin(admin.ModelAdmin):
     list_display = ('titulo', 'institucion', 'perfil')
     list_filter = ('perfil',)
+    exclude = ('tipo',)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(tipo='curso')
+
+    def save_model(self, request, obj, form, change):
+        obj.tipo = 'curso'
+        super().save_model(request, obj, form, change)
 
     def response_change(self, request, obj):
         if "_continue" not in request.POST:
             return respuesta_cierre_pestana()
         return super().response_change(request, obj)
+
+class ReconocimientosAdmin(admin.ModelAdmin):
+    list_display = ('titulo', 'institucion', 'perfil')
+    list_filter = ('perfil',)
+    exclude = ('tipo',)
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        return qs.filter(tipo='reconocimiento')
+
+    def save_model(self, request, obj, form, change):
+        obj.tipo = 'reconocimiento'
+        super().save_model(request, obj, form, change)
+
+    def response_change(self, request, obj):
+        if "_continue" not in request.POST:
+            return respuesta_cierre_pestana()
+        return super().response_change(request, obj)
+
+# Proxy para Cursos
+class CursoProxy(Certificado):
+    class Meta:
+        proxy = True
+        verbose_name = "Curso"
+        verbose_name_plural = "Cursos"
+
+# Proxy para Reconocimientos
+class ReconocimientoProxy(Certificado):
+    class Meta:
+        proxy = True
+        verbose_name = "Reconocimiento"
+        verbose_name_plural = "Reconocimientos"
+
+admin.site.register(CursoProxy, CursosAdmin)
+admin.site.register(ReconocimientoProxy, ReconocimientosAdmin)
 
 @admin.register(Referencia)
 class ReferenciaAdmin(admin.ModelAdmin):

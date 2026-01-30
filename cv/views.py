@@ -25,9 +25,16 @@ def ver_cv(request, perfil_id):
     habilidades = Habilidad.objects.filter(perfil=perfil)
     referencias = Referencia.objects.filter(perfil=perfil)
 
-    certificados = (
+    # Separar Cursos y Reconocimientos
+    cursos = (
         Certificado.objects
-        .filter(perfil=perfil)
+        .filter(perfil=perfil, tipo='curso')
+        .order_by('-fecha_obtencion')  
+    )
+
+    reconocimientos = (
+        Certificado.objects
+        .filter(perfil=perfil, tipo='reconocimiento')
         .order_by('-fecha_obtencion')  
     )
 
@@ -36,7 +43,8 @@ def ver_cv(request, perfil_id):
         'experiencias': experiencias,
         'habilidades': habilidades,
         'referencias': referencias,
-        'certificados': certificados,
+        'cursos': cursos,
+        'reconocimientos': reconocimientos,
     }
 
     return render(request, 'cv/index.html', contexto)

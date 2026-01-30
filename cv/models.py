@@ -47,11 +47,17 @@ class Experiencia(models.Model):
 
 
 class Certificado(models.Model):
+    TIPO_CHOICES = [
+        ('curso', 'Curso'),
+        ('reconocimiento', 'Reconocimiento'),
+    ]
+    
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='certificados', null=True)
     titulo = models.CharField(max_length=200)
     institucion = models.CharField(max_length=200)
     fecha_obtencion = models.DateField()
     archivo = models.FileField(upload_to='certificados/')
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='curso')
 
     class Meta:
         ordering = ['-fecha_obtencion']  # ← MÁS RECIENTE PRIMERO
