@@ -46,22 +46,31 @@ class Experiencia(models.Model):
 
 
 class Certificado(models.Model):
-    TIPO_CHOICES = [
+    TIPO_CHOICES = (
         ('curso', 'Curso'),
         ('reconocimiento', 'Reconocimiento'),
-    ]
-    perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='certificados', null=True)
+    )
+
+    perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE)
     titulo = models.CharField(max_length=200)
     institucion = models.CharField(max_length=200)
     fecha_obtencion = models.DateField()
     archivo = models.FileField(upload_to='certificados/')
-    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='curso')
+    tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
+
+    # ✅ NUEVOS CAMPOS (NO SE BORRA NADA)
+    total_horas = models.PositiveIntegerField(
+        null=True,
+        blank=True,
+        help_text="Solo para cursos"
+    )
 
     class Meta:
         ordering = ['-fecha_obtencion']
 
     def __str__(self):
         return self.titulo
+
 
 
 class Habilidad(models.Model):
