@@ -1,7 +1,6 @@
 from django.db import models
 
 class Perfil(models.Model):
-    # Campos del perfil
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
     profesion = models.CharField(max_length=100)
@@ -19,12 +18,8 @@ class Perfil(models.Model):
     licenciaconducir = models.CharField(max_length=50, blank=True, null=True)
     telefonoconvencional = models.CharField(max_length=20, blank=True, null=True)
     direcciondomiciliaria = models.CharField(max_length=255, blank=True, null=True)
-    
-    # --- NUEVOS CAMPOS AGREGADOS ---
     tiposangre = models.CharField(max_length=10, blank=True, null=True)
     direcciontrabajo = models.CharField(max_length=255, blank=True, null=True)
-    # -------------------------------
-
     foto = models.ImageField(upload_to='perfil/', null=True, blank=True) 
 
     def __str__(self):
@@ -35,12 +30,16 @@ class Experiencia(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='experiencias', null=True)
     empresa = models.CharField(max_length=100)
     cargo = models.CharField(max_length=100)
-    inicio = models.CharField(max_length=20)
-    fin = models.CharField(max_length=20, default="Actualidad")
+    
+    # CAMBIO: Usamos DateField para ordenamiento cronológico real
+    inicio = models.DateField()
+    fin = models.DateField(null=True, blank=True) # Si es null, asumiremos "Actualidad"
+    
     logros = models.TextField()
 
     class Meta:
-        ordering = ['-inicio']  # ← MÁS RECIENTE PRIMERO
+        # Esto garantiza el orden cronológico descendente (más reciente arriba)
+        ordering = ['-inicio']
 
     def __str__(self):
         return f"{self.cargo} en {self.empresa}"
@@ -51,7 +50,6 @@ class Certificado(models.Model):
         ('curso', 'Curso'),
         ('reconocimiento', 'Reconocimiento'),
     ]
-    
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='certificados', null=True)
     titulo = models.CharField(max_length=200)
     institucion = models.CharField(max_length=200)
@@ -60,7 +58,7 @@ class Certificado(models.Model):
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES, default='curso')
 
     class Meta:
-        ordering = ['-fecha_obtencion']  # ← MÁS RECIENTE PRIMERO
+        ordering = ['-fecha_obtencion']
 
     def __str__(self):
         return self.titulo
@@ -68,12 +66,7 @@ class Certificado(models.Model):
 
 class Habilidad(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name='habilidades', null=True)
-    
-    CATEGORIA_CHOICES = [
-        ('T', 'Técnica'),
-        ('B', 'Blanda'),
-    ]
-    
+    CATEGORIA_CHOICES = [('T', 'Técnica'), ('B', 'Blanda')]
     nombre = models.CharField(max_length=50)
     categoria = models.CharField(max_length=1, choices=CATEGORIA_CHOICES, default='T')
 
@@ -88,4 +81,4 @@ class Referencia(models.Model):
     email = models.EmailField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.nombre} (Ref. de {self.perfil.nombre})"
+        return f"{self.nombre}"

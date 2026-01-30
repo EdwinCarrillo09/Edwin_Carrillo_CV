@@ -13,8 +13,8 @@
                         {% endif %}
                     </div>
                     <h6 class="fw-bold small mb-1" style="color: var(--primary-color);">{{ cert.titulo }}</h6>
-                    <p class="text-muted mb-3" style="font-size: 0.75rem;">{{ cert.institucion }}</p>
-                    
+                    <p class="text-muted mb-1" style="font-size: 0.75rem;">{{ cert.institucion }}</p>
+                    <p class="text-muted small mb-3">{{ cert.fecha_obtencion|date:"d M Y" }}</p>
                     <div class="mt-auto d-grid gap-2 d-print-none">
                         <a href="{{ cert.archivo.url }}" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill" style="font-size: 0.7rem; font-weight: 600;">
                             👁️ Ver Curso
@@ -45,7 +45,9 @@
                         {% endif %}
                     </div>
                     <h6 class="fw-bold small mb-1" style="color: var(--primary-color);">{{ cert.titulo }}</h6>
-                    <p class="text-muted mb-3" style="font-size: 0.75rem;">{{ cert.institucion }}</p>
+                    <p class="text-muted mb-1" style="font-size: 0.75rem;">{{ cert.institucion }}</p>
+<p class="text-muted small mb-3">{{ cert.fecha_obtencion|date:"d M Y" }}</p>
+
                     
                     <div class="mt-auto d-grid gap-2 d-print-none">
                         <a href="{{ cert.archivo.url }}" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill" style="font-size: 0.7rem; font-weight: 600;">
