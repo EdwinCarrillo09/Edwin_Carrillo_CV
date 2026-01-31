@@ -16,14 +16,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from cv.views import ver_cv, home
+from cv.views import ver_cv, home, venta_garaje
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),  # 👈 ESTA LÍNEA ES LA CLAVE
+
+    # Home y CV
+    path('', home, name='home'),
     path('perfil/<int:perfil_id>/', ver_cv, name='ver_cv'),
+
+    # Venta Garaje
+   path('venta-garaje/<int:perfil_id>/', venta_garaje, name='venta_garaje'),
+
+
 ]
 
 # Esto es lo que permite que las fotos de tus títulos se vean

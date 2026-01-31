@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Perfil, Experiencia, Habilidad, Referencia, Certificado
+from .models import Perfil, Experiencia, Habilidad, Referencia, Certificado, VentaGaraje
 
 
 def home(request):
@@ -19,7 +19,7 @@ def ver_cv(request, perfil_id):
     experiencias = (
         Experiencia.objects
         .filter(perfil=perfil)
-        .order_by('-inicio', '-id')  # 👈 ajuste seguro
+        .order_by('-inicio', '-id')  
     )
 
     habilidades = Habilidad.objects.filter(perfil=perfil)
@@ -48,3 +48,15 @@ def ver_cv(request, perfil_id):
     }
 
     return render(request, 'cv/index.html', contexto)
+
+def venta_garaje(request, perfil_id):
+    perfil = get_object_or_404(Perfil, id=perfil_id)
+    ventas_garaje = VentaGaraje.objects.filter(
+        perfil=perfil,
+        activo_front=True
+    )
+
+    return render(request, 'cv/venta_garaje.html', {
+        'perfil': perfil,
+        'ventas_garaje': ventas_garaje
+    })

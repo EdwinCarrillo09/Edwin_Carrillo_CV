@@ -58,7 +58,7 @@ class Certificado(models.Model):
     archivo = models.FileField(upload_to='certificados/')
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
 
-    # ✅ NUEVOS CAMPOS (NO SE BORRA NADA)
+   
     total_horas = models.PositiveIntegerField(
         null=True,
         blank=True,
@@ -91,3 +91,29 @@ class Referencia(models.Model):
 
     def __str__(self):
         return f"{self.nombre}"
+    
+class VentaGaraje(models.Model):
+    perfil = models.ForeignKey(
+        'Perfil',
+        on_delete=models.CASCADE,
+        related_name='ventas_garaje'
+    )
+
+    nombre_producto = models.CharField(max_length=150)
+    descripcion = models.TextField(blank=True)
+    estado_producto = models.CharField(
+        max_length=50,
+        choices=[
+            ('Nuevo', 'Nuevo'),
+            ('Usado', 'Usado'),
+            ('Semi-nuevo', 'Semi-nuevo')
+        ]
+    )
+    valor_bien = models.DecimalField(max_digits=10, decimal_places=2)
+    imagen = models.ImageField(upload_to='venta_garaje/', blank=True, null=True)
+    activo_front = models.BooleanField(default=True)
+
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.nombre_producto

@@ -152,3 +152,17 @@ class ReferenciaAdmin(admin.ModelAdmin):
         if "_continue" not in request.POST:
             return respuesta_cierre_pestana()
         return super().response_change(request, obj)
+from .models import VentaGaraje
+
+@admin.register(VentaGaraje)
+class VentaGarajeAdmin(admin.ModelAdmin):
+    list_display = (
+        'nombre_producto',
+        'perfil',
+        'estado_producto',
+        'valor_bien',
+        'activo_front'
+    )
+    list_filter = ('activo_front', 'estado_producto')
+    search_fields = ('nombre_producto', 'descripcion')
+
