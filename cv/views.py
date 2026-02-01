@@ -50,13 +50,11 @@ def ver_cv(request, perfil_id):
     return render(request, 'cv/index.html', contexto)
 
 def venta_garaje(request, perfil_id):
-    perfil = get_object_or_404(Perfil, id=perfil_id)
-    ventas_garaje = VentaGaraje.objects.filter(
-        perfil=perfil,
-        activo_front=True
-    )
+    ventas = VentaGaraje.objects.filter(
+        perfil_id=perfil_id
+    ).order_by('-fecha_publicacion')
 
     return render(request, 'cv/venta_garaje.html', {
-        'perfil': perfil,
-        'ventas_garaje': ventas_garaje
+        'ventas_garaje': ventas,
+        'perfil_id': perfil_id
     })

@@ -17,10 +17,11 @@
                 <img src="{{ producto.imagen.url }}" class="card-img-top">
             {% endif %}
             <div class="card-body">
-                <h5>{{ producto.nombre_producto }}</h5>
-                <p>{{ producto.descripcion }}</p>
-                <p><strong>Estado:</strong> {{ producto.estado_producto }}</p>
-                <p><strong>Precio:</strong> ${{ producto.valor_bien }}</p>
+                <strong>{{ producto.nombre_producto }}</strong><br>
+                Estado: {{ producto.estado_producto }}<br>
+                Precio: ${{ producto.valor_bien }}<br>
+                Publicado: {{ producto.fecha_publicacion|date:"d/m/Y" }}<br>
+                {{ producto.descripcion }}
             </div>
         </div>
     </div>
@@ -29,9 +30,7 @@
 {% endfor %}
 </div>
 
-<a href="{% url 'ver_cv' perfil.id %}" class="btn btn-secondary mt-4">
-    ⬅ Volver al CV
-</a>
+<a href="{% url 'ver_cv' perfil_id %}">⬅ Volver al CV</a></a>
 
 </body>
 </html>

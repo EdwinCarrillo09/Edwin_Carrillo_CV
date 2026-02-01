@@ -158,11 +158,12 @@ from .models import VentaGaraje
 class VentaGarajeAdmin(admin.ModelAdmin):
     list_display = (
         'nombre_producto',
-        'perfil',
         'estado_producto',
         'valor_bien',
-        'activo_front'
+        'fecha_publicacion'
     )
-    list_filter = ('activo_front', 'estado_producto')
+
+    list_filter = ('estado_producto', 'fecha_publicacion')
     search_fields = ('nombre_producto', 'descripcion')
+    ordering = ('-fecha_publicacion',)
 
