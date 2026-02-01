@@ -1,39 +1,44 @@
-"""
-URL configuration for mi_sitio project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
-from cv.views import ver_cv, home, venta_garaje
+from cv.views import (
+    home,
+    ver_cv,
+    venta_garaje,
+    productos_academicos,
+    productos_laborales   # 👈 agregado
+)
 from django.conf import settings
 from django.conf.urls.static import static
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Home y CV
+    # Home
     path('', home, name='home'),
+
+    # CV
     path('perfil/<int:perfil_id>/', ver_cv, name='ver_cv'),
 
     # Venta Garaje
-   path('venta-garaje/<int:perfil_id>/', venta_garaje, name='venta_garaje'),
+    path('venta-garaje/<int:perfil_id>/', venta_garaje, name='venta_garaje'),
 
+    # Productos Académicos
+    path(
+        'productos-academicos/<int:perfil_id>/',
+        productos_academicos,
+        name='productos_academicos'
+    ),
 
+    # Productos Laborales ✅ NUEVO
+    path(
+        'productos-laborales/<int:perfil_id>/',
+        productos_laborales,
+        name='productos_laborales'
+    ),
+
+    # (la dejo tal cual la tienes, aunque esté repetida)
+    path('perfil/<int:perfil_id>/', ver_cv, name='ver_cv'),
 ]
 
-# Esto es lo que permite que las fotos de tus títulos se vean
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

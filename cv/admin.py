@@ -2,7 +2,8 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.html import format_html
 from django.urls import reverse
-from .models import Perfil, Experiencia, Habilidad, Certificado, Referencia
+from .models import Perfil, Experiencia, Habilidad, Certificado, ProductoLaboral, Referencia
+
 
 # Función simple que cierra la pestaña
 def respuesta_cierre_pestana():
@@ -166,4 +167,38 @@ class VentaGarajeAdmin(admin.ModelAdmin):
     list_filter = ('estado_producto', 'fecha_publicacion')
     search_fields = ('nombre_producto', 'descripcion')
     ordering = ('-fecha_publicacion',)
+
+from .models import ProductoAcademico
+
+
+from django.contrib import admin
+from .models import ProductoAcademico
+
+
+@admin.register(ProductoAcademico)
+class ProductoAcademicoAdmin(admin.ModelAdmin):
+    list_display = (
+        'idproductoacademico',
+        'nombrerecurso',
+        'clasificador',
+        'perfil',
+        'activarparaqueseveaenfront'
+    )
+
+    list_filter = ('clasificador', 'activarparaqueseveaenfront')
+    search_fields = ('nombrerecurso', 'descripcion')
+    from .models import ProductoAcademico, ProductoLaboral
+
+@admin.register(ProductoLaboral)
+class ProductoLaboralAdmin(admin.ModelAdmin):   
+    list_display = (
+        'perfil',
+        'nombre_recurso',
+        'descripcion',
+        'activo'
+    )
+    list_filter = ('activo',)
+    search_fields = ('nombre_recurso', 'descripcion')
+
+
 

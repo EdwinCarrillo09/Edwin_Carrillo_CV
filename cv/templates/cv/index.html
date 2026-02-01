@@ -79,6 +79,71 @@
     {% include 'cv/habilidades.html' %}
     {% include 'cv/certificados.html' %}
     {% include 'cv/referencias.html' %}
+    {% if productos_academicos %}
+
+
+
+
+{% if productos_academicos %}
+<section id="productos-academicos" class="card card-custom mt-4">
+    <h3 class="section-title">📚 Productos Académicos</h3>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for producto in productos_academicos %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 text-center p-3">
+                <div style="font-size: 2rem;">🎓</div>
+
+                <h6 class="fw-bold mt-2">
+                    {{ producto.nombrerecurso }}
+                </h6>
+
+                <span class="badge bg-primary mb-2">
+                    {{ producto.clasificador }}
+                </span>
+
+                <p class="text-muted small">
+                    {{ producto.descripcion }}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+
+
+
+{% if productos_laborales %}
+<section id="productos-laborales" class="card card-custom mt-5">
+    <h3 class="section-title">💼 Productos Laborales</h3>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for producto in productos_laborales %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 text-center p-3">
+                <div style="font-size: 2rem;">🛠️</div>
+
+                <h6 class="fw-bold mt-2">
+                    {{ producto.nombre_recurso }}
+                </h6>
+
+                <span class="badge bg-success mb-2">
+                    {{ producto.clasificador }}
+                </span>
+
+                <p class="text-muted small">
+                    {{ producto.descripcion }}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+ {% endif %}
+
 </div>
 
 <div id="modalImpresion" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:25px; border-radius:15px; box-shadow: 0 0 30px rgba(0,0,0,0.5); z-index:10000; width: 320px;">
@@ -180,8 +245,11 @@ document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
 <div class="text-center my-5 d-print-none">
     <a href="{% url 'venta_garaje' perfil.id %}" class="btn btn-lg btn-warning shadow">
         🛒 Ver Venta de Garaje
-    </a>
+
+
+
 </div>
+
 
 </body>
 </html>

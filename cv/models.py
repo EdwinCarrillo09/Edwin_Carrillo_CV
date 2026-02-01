@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 
 class Perfil(models.Model):
@@ -94,26 +95,63 @@ class Referencia(models.Model):
     
 class VentaGaraje(models.Model):
     perfil = models.ForeignKey(
-        'Perfil',
+        Perfil,
         on_delete=models.CASCADE,
         related_name='ventas_garaje'
     )
 
-    nombre_producto = models.CharField(max_length=150)
-    descripcion = models.TextField(blank=True)
-    estado_producto = models.CharField(
-        max_length=50,
-        choices=[
-            ('Nuevo', 'Nuevo'),
-            ('Usado', 'Usado'),
-            ('Semi-nuevo', 'Semi-nuevo')
-        ]
-    )
+    nombre_producto = models.CharField(max_length=100)
+    descripcion = models.TextField()
+    estado_producto = models.CharField(max_length=50)
     valor_bien = models.DecimalField(max_digits=10, decimal_places=2)
-    imagen = models.ImageField(upload_to='venta_garaje/', blank=True, null=True)
-    activo_front = models.BooleanField(default=True)
 
-    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    fecha_publicacion = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.nombre_producto
+
+from django.db import models
+from .models import Perfil   # si Perfil está en el mismo archivo, ignora esta línea
+
+
+from django.db import models
+
+
+class ProductoAcademico(models.Model):
+    idproductoacademico = models.AutoField(primary_key=True)
+
+    perfil = models.ForeignKey(
+        'Perfil',
+        on_delete=models.CASCADE,
+        db_column='idperfilconqueestaactivo',
+        related_name='productos_academicos'
+    )
+
+    nombrerecurso = models.CharField(max_length=100)
+    clasificador = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100)
+    activarparaqueseveaenfront = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'productosacademicos'
+
+    def __str__(self):
+        return self.nombrerecurso
+class ProductoLaboral(models.Model):
+    perfil = models.ForeignKey(
+        Perfil,
+        on_delete=models.CASCADE,
+        related_name='productos_laborales'
+    )
+
+    nombre_recurso = models.CharField(max_length=100)
+    clasificador = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=255)
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nombre_recurso
+
+
+
+
