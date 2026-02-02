@@ -1,0 +1,16 @@
+<div class="card card-custom" id="referencias">
+    <h3 class="section-title">Referencias</h3>
+    <div class="row g-3">
+        {% for ref in referencias %}
+        <div class="col-md-6">
+            <div class="p-4 border rounded-4 bg-light shadow-sm">
+                <p class="mb-1 fw-bold text-dark" style="font-size: 1.1rem;">{{ ref.nombre }}</p>
+                <p class="mb-1 small" style="color: var(--accent-color);">📞 {{ ref.telefono }}</p>
+                <p class="mb-0 small text-muted">📩 {{ ref.email|default:"---" }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12"><p class="text-muted small italic">No hay referencias disponibles.</p></div>
+        {% endfor %}
+    </div>
+</div>

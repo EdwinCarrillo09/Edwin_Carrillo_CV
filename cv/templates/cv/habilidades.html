@@ -1,0 +1,27 @@
+<div class="card card-custom" id="habilidades">
+    <div class="card-body">
+        <h3 class="section-title">Habilidades</h3>
+        
+        <div class="mb-4">
+            <h6 class="fw-bold mb-3" style="color: var(--primary-color);">Técnicas:</h6>
+            <div class="d-flex flex-wrap gap-2">
+                {% for hab in perfil.habilidades.all %}
+                    {% if hab.categoria == 'T' %}
+                        <span class="badge-skill shadow-sm">{{ hab.nombre }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div>
+            <h6 class="fw-bold mb-3" style="color: var(--primary-color);">Habilidades Blandas:</h6>
+            <div class="d-flex flex-wrap gap-2">
+                {% for hab in perfil.habilidades.all %}
+                    {% if hab.categoria == 'B' %}
+                        <span class="badge-skill shadow-sm">{{ hab.nombre }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

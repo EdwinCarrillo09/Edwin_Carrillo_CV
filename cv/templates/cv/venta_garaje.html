@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Venta de Garaje</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container my-5">
+
+<h1 class="mb-4">🛒 Venta de Garaje</h1>
+
+<div class="row">
+{% for producto in ventas_garaje %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow">
+            {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+                <strong>{{ producto.nombre_producto }}</strong><br>
+                Estado: {{ producto.estado_producto }}<br>
+                Precio: ${{ producto.valor_bien }}<br>
+                Publicado: {{ producto.fecha_publicacion|date:"d/m/Y" }}<br>
+                {{ producto.descripcion }}
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <p>No hay productos publicados.</p>
+{% endfor %}
+</div>
+
+<a href="{% url 'ver_cv' perfil_id %}">⬅ Volver al CV</a></a>
+
+</body>
+</html>
