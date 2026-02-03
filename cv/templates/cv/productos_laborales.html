@@ -1,0 +1,20 @@
+{% extends "cv/index.html" %}
+
+{% block content %}
+<h2>💼 Productos Laborales</h2>
+
+{% if productos %}
+    <ul>
+        {% for p in productos %}
+            <li>
+                <strong>{{ p.nombreproducto }}</strong><br>
+                Fecha: {{ p.fechaproducto }}<br>
+                {{ p.descripcion }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay productos laborales.</p>
+{% endif %}
+{% endblock %}

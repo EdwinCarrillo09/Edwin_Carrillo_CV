@@ -1,0 +1,20 @@
+{% extends "cv/index.html" %}
+
+{% block content %}
+<h2>🛒 Venta de Garaje</h2>
+
+{% if productos %}
+    <div>
+        {% for p in productos %}
+            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+                <h4>{{ p.nombreproducto }}</h4>
+                <p>Estado: {{ p.estadoproducto }}</p>
+                <p>{{ p.descripcion }}</p>
+                <strong>$ {{ p.valordelbien }}</strong>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No hay productos en venta.</p>
+{% endif %}
+{% endblock %}

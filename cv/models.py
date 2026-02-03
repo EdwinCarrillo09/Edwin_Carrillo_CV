@@ -58,7 +58,7 @@ class Certificado(models.Model):
     archivo = models.FileField(upload_to='certificados/')
     tipo = models.CharField(max_length=20, choices=TIPO_CHOICES)
 
-    # ✅ NUEVOS CAMPOS (NO SE BORRA NADA)
+   
     total_horas = models.PositiveIntegerField(
         null=True,
         blank=True,
@@ -91,3 +91,60 @@ class Referencia(models.Model):
 
     def __str__(self):
         return f"{self.nombre}"
+    from django.db import models
+from django.core.validators import MinValueValidator
+
+
+class ProductoAcademico(models.Model):
+    idproductoacademico = models.AutoField(primary_key=True)
+    perfil = models.ForeignKey(
+        'Perfil',
+        on_delete=models.CASCADE,
+        db_column='idperfilconqueestaactivo'
+    )
+    nombrecurso = models.CharField(max_length=100)
+    clasificador = models.CharField(max_length=100)
+    descripcion = models.CharField(max_length=100)
+    activarparaqueseveaenfront = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'productosacademicos'
+
+
+class ProductoLaboral(models.Model):
+    idproductoslaborales = models.AutoField(primary_key=True)
+    perfil = models.ForeignKey(
+        'Perfil',
+        on_delete=models.CASCADE,
+        db_column='idperfilconqueestaactivo'
+    )
+    nombreproducto = models.CharField(max_length=100)
+    fechaproducto = models.DateField()
+    descripcion = models.CharField(max_length=100)
+    activarparaqueseveaenfront = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'productoslaborales'
+
+
+class VentaGaraje(models.Model):
+    idventagarage = models.AutoField(primary_key=True)
+    perfil = models.ForeignKey(
+        'Perfil',
+        on_delete=models.CASCADE,
+        db_column='idperfilconqueestaactivo'
+    )
+    nombreproducto = models.CharField(max_length=100)
+    estadoproducto = models.CharField(
+        max_length=40,
+        choices=[
+            ('Bueno', 'Bueno'),
+            ('Regular', 'Regular'),
+        ]
+    )
+    descripcion = models.CharField(max_length=100)
+    valordelbien = models.DecimalField(max_digits=5, decimal_places=2)
+    activarparaqueseveaenfront = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = 'ventagarage'

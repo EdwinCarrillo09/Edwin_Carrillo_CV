@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.utils.html import format_html
 from django.urls import reverse
 from .models import Perfil, Experiencia, Habilidad, Certificado, Referencia
+from .models import ProductoAcademico, ProductoLaboral, VentaGaraje
 
 # Función simple que cierra la pestaña
 def respuesta_cierre_pestana():
@@ -152,3 +153,6 @@ class ReferenciaAdmin(admin.ModelAdmin):
         if "_continue" not in request.POST:
             return respuesta_cierre_pestana()
         return super().response_change(request, obj)
+admin.site.register(ProductoAcademico)
+admin.site.register(ProductoLaboral)
+admin.site.register(VentaGaraje)

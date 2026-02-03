@@ -1,0 +1,20 @@
+{% extends "cv/index.html" %}
+
+{% block content %}
+<h2>📘 Productos Académicos</h2>
+
+{% if productos %}
+    <ul>
+        {% for p in productos %}
+            <li>
+                <strong>{{ p.nombrecurso }}</strong><br>
+                Clasificador: {{ p.clasificador }}<br>
+                {{ p.descripcion }}
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No hay productos académicos.</p>
+{% endif %}
+{% endblock %}
